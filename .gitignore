@@ -42,3 +42,4 @@ dist/
 esm/
 cjs/
 sdk/juggle-sdk-nodejs/types/
+juggle.log
