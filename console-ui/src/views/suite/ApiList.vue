@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
 import { ListFilter, ListTable, ListForm } from './api';
 import { apiService } from '@/service';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+let paramsData = reactive({
+  params: route.params,
+});
 
 const pageNum = ref(1);
 const pageSize = ref(10);
@@ -22,6 +28,7 @@ async function queryPage() {
   const params = {
     pageSize: pageSize.value,
     pageNum: pageNum.value,
+    suiteId: Number(paramsData.params.suiteId),
     ...filter.value,
   };
   const res = await apiService.listQuery(params);
@@ -122,7 +129,7 @@ async function deleteApiItem(row: any) {
 </script>
 <template>
   <div class="page-interface-list">
-    <el-container>
+    <el-container class="table-container">
       <el-header class="page-header">
         <ListFilter @search="onSearch" />
         <el-button :icon="Plus" type="primary" @click="openAdd">新建</el-button>
